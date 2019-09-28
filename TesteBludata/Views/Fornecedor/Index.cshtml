@@ -1,0 +1,37 @@
+﻿@model IEnumerable<TesteBludata.Model.FornecedorModel>
+@{
+    ViewBag.Title = "Index";
+}
+<hr />
+<p>
+    @Html.ActionLink("Novo", "Create", "Fornecedor", new { @class = "btn btn-success" })
+</p>
+
+@using (Html.BeginForm("Index", "Fornecedor", FormMethod.Get))
+{
+    <p>
+        Pesquisa @Html.TextBox("Filtro")<input type="submit" value="Buscar" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Nome) </th>
+        <th>@Html.DisplayNameFor(model => model.CPFCNPJ)</th>
+        <th>@Html.DisplayNameFor(model => model.DataCadastro)</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+            <td>@Html.DisplayFor(modelItem => item.CPFCNPJ)</td>
+            <td>@Html.DisplayFor(modelItem => item.DataCadastro)</td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Excluir", "Delete", new { id = item.ID }) |
+                @Html.ActionLink("Telefones", "Telefones", new { fornecedor = item.ID })
+            </td>
+        </tr>
+    }
+</table>

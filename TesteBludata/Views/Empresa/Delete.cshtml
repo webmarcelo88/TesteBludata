@@ -1,0 +1,46 @@
+﻿@model TesteBludata.Model.EmpresaModel
+@{
+    ViewBag.Title = "Deletar";
+}
+<h3 class="text-danger">Deseja excluir esta empresa?</h3>
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(m => m.NomeFantasia, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.NomeFantasia, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Estado, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @{
+                var estados = new TesteBludata.DAO.Estado.EstadoDAO().Consultar();
+
+                var listItems = new List<SelectListItem>();
+
+                foreach (var estado in estados)
+                {
+                    listItems.Add(new SelectListItem { Text = estado.Sigla, Value = estado.ID.ToString() });
+                }
+
+                @Html.DropDownListFor(m => m.Estado, listItems, new { @class = "form-control", @disabled = "disabled" })
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.CNPJ, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.CNPJ, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Excluir" class="btn btn-danger" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-warning" })
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<TesteBludata.Model.FornecedorTelefoneModel>
+@{
+    ViewBag.Title = "Index";
+}
+<hr />
+<p>
+    @Html.ActionLink("Novo", "CreateTelefone", "Fornecedor", new { fornecedor = Request.QueryString[0] }, new { @class = "btn btn-success" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Telefone) </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Telefone)</td>
+            <td>
+                @Html.ActionLink("Editar", "EditTelefone", new { id = item.ID }) |
+                @Html.ActionLink("Excluir", "DeleteTelefone", new { id = item.ID })
+            </td>
+        </tr>
+    }
+</table>

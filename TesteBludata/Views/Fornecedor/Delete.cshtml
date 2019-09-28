@@ -1,0 +1,50 @@
+﻿@model TesteBludata.Model.FornecedorModel
+@{
+    ViewBag.Title = "Deletar";
+}
+<h3 class="text-danger">Deseja excluir este fornecedor?</h3>
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(m => m.Empresa, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @{
+                var empresas = new TesteBludata.DAO.Empresa.EmpresaDAO().Consultar();
+                var listItems = new List<SelectListItem>();
+                foreach (var empresa in empresas)
+                {
+                    listItems.Add(new SelectListItem { Text = empresa.NomeFantasia, Value = empresa.ID.ToString() });
+                }
+
+                @Html.DropDownListFor(m => m.Empresa, listItems, new { @class = "form-control", @disabled = "disabled" })
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Nome, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.CPFCNPJ, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.CPFCNPJ, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DataCadastro, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.DataCadastro, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Excluir" class="btn btn-danger" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-warning" })
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<TesteBludata.Model.EmpresaModel>
+@{
+    ViewBag.Title = "Index";
+}
+<hr />
+<p>
+    @Html.ActionLink("Novo", "Create", "Empresa", new { @class = "btn btn-success" })
+</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.NomeFantasia) </th>
+        <th>@Html.DisplayNameFor(model => model.Estado)</th>
+        <th>@Html.DisplayNameFor(model => model.CNPJ)</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.NomeFantasia)</td>
+        <td>@Html.DisplayFor(modelItem => new TesteBludata.DAO.Estado.EstadoDAO().ConsultarPeloID(item.Estado).Sigla)</td>
+        <td>@Html.DisplayFor(modelItem => item.CNPJ)</td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Excluir", "Delete", new { id = item.ID })
+        </td>
+    </tr>
+    }
+</table>

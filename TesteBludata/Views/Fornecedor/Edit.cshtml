@@ -1,0 +1,94 @@
+﻿@model TesteBludata.Model.FornecedorModel
+@{
+    ViewBag.Title = "Editar Fornecedor";
+}
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+    </script>
+}
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.HiddenFor(m => m.ID)
+        <div class="form-group">
+            @Html.LabelFor(m => m.Empresa, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    var empresas = new TesteBludata.DAO.Empresa.EmpresaDAO().Consultar();
+                    var listItems = new List<SelectListItem>();
+                    foreach (var empresa in empresas)
+                    {
+                        listItems.Add(new SelectListItem { Text = empresa.NomeFantasia, Value = empresa.ID.ToString() });
+                    }
+
+                    @Html.DropDownListFor(m => m.Empresa, listItems, new { @class = "form-control" })
+                }
+                @Html.ValidationMessageFor(m => m.Empresa, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Nome, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CPFCNPJ, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.CPFCNPJ, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CPFCNPJ, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DataCadastro, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.DataCadastro, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DataNascimento, new { @class = "control-label col-md-2", @type = "date", @Value = Model.DataNascimento.ToString("dd/MM/yyyy") })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.DataNascimento, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.RG, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.RG, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.RG, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Tipo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    var listTipo = new List<SelectListItem>();
+                    listTipo.Add(new SelectListItem { Text = "Pessoa física", Value = "1" });
+                    listTipo.Add(new SelectListItem { Text = "Pessoa jurídica", Value = "2" });
+                    @Html.DropDownListFor(m => m.Tipo, listTipo, new { @class = "form-control", @placeholder = "Empresa" })
+                }
+                @Html.ValidationMessageFor(m => m.Tipo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-success" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,48 @@
+﻿@model TesteBludata.Model.FornecedorTelefoneModel
+@{
+    ViewBag.Title = "Editar Telefone";
+}
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    @Html.HiddenFor(m => m.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Fornecedor, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @{
+                var fornecedores = new TesteBludata.DAO.Fornecedor.FornecedorDAO().Consultar();
+                var listItems = new List<SelectListItem>();
+                foreach (var fornecedor in fornecedores)
+                {
+                    listItems.Add(new SelectListItem { Text = fornecedor.Nome, Value = fornecedor.ID.ToString() });
+                }
+
+                @Html.DropDownListFor(m => m.Fornecedor, listItems, new { @class = "form-control", @placeholder = "Fornecedor", @disabled = "disabled" })
+            }
+            @Html.ValidationMessageFor(m => m.Fornecedor, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Telefone, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Telefone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Telefone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Salvar" class="btn btn-success" />
+            @Html.ActionLink("Cancelar", "Telefones", new { id = Model.Fornecedor }, new { @class = "btn btn-danger" })
+        </div>
+    </div>
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
